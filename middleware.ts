@@ -16,12 +16,8 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   if (isAdminRoute(request)) {
-    await auth.protect((has) => {
-      return (
-        has({ role: "org:admin" }) ||
-        has({ permission: "org:sys_memberships:manage" })
-      );
-    });
+    await auth.protect((has) => has({ role: "org:admin" }));
+    // or has({ permission: "your:custom_permission" })
   }
 });
 
