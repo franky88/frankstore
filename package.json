@@ -8,20 +8,35 @@
     "start": "next start",
     "lint": "eslint"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
+    "@clerk/nextjs": "^6.33.1",
+    "@prisma/client": "^6.16.3",
+    "@stripe/stripe-js": "^8.0.0",
+    "@uploadthing/react": "^7.3.3",
+    "axios": "^1.12.2",
+    "lucide-react": "^0.544.0",
+    "next": "15.5.4",
+    "prisma": "^6.16.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.4"
+    "react-hot-toast": "^2.6.0",
+    "stripe": "^19.0.0",
+    "uploadthing": "^7.7.4",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
   }
 }
