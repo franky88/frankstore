@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { OrdersTable } from "@/components/admin/orders-table";
+import { OrderStatus } from "@prisma/client";
 
 export default async function AdminOrdersPage({
   searchParams,
@@ -10,7 +11,7 @@ export default async function AdminOrdersPage({
   const { status } = params;
 
   const orders = await prisma.order.findMany({
-    where: status ? { status: status as any } : undefined,
+    where: status ? { status: status as OrderStatus } : undefined,
     include: {
       user: { select: { name: true, email: true } },
       orderItems: { include: { product: true } },

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { requireAuth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { OrderItem } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
@@ -13,12 +14,12 @@ export async function POST(req: Request) {
     }
 
     // Validate products and calculate total
-    const productIds = items.map((item: any) => item.id);
+    const productIds = items.map((item: OrderItem) => item.id);
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } },
     });
 
-    const lineItems = items.map((item: any) => {
+    const lineItems = items.map((item: OrderItem) => {
       const product = products.find((p) => p.id === item.id);
       if (!product) {
         throw new Error(`Product ${item.id} not found`);
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
     });
 
     // Create order in database
-    const totalAmount = items.reduce((sum: number, item: any) => {
+    const totalAmount = items.reduce((sum: number, item: OrderItem) => {
       const product = products.find((p) => p.id === item.id);
       return sum + (product?.price || 0) * item.quantity;
     }, 0);
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
         shippingAddress,
         status: "PENDING",
         orderItems: {
-          create: items.map((item: any) => {
+          create: items.map((item: OrderItem) => {
             const product = products.find((p) => p.id === item.id);
             return {
               productId: item.id,

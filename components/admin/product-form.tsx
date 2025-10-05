@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Upload, X } from "lucide-react";
+import { X } from "lucide-react";
 import { UploadButton } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import Image from "next/image";
+import { Product } from "@prisma/client";
 
 interface Category {
   id: string;
@@ -15,7 +17,7 @@ interface Category {
 
 interface ProductFormProps {
   categories: Category[];
-  product?: any;
+  product?: Product;
 }
 
 export function ProductForm({ categories, product }: ProductFormProps) {
@@ -51,6 +53,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
       router.push("/admin/products");
       router.refresh();
     } catch (error) {
+      console.error(error);
       toast.error("Failed to save product");
     } finally {
       setLoading(false);
@@ -168,7 +171,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
                   key={index}
                   className="relative aspect-square bg-gray-100 rounded group"
                 >
-                  <img
+                  <Image
                     src={image}
                     alt={`Product ${index + 1}`}
                     className="w-full h-full object-cover rounded"

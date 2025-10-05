@@ -41,6 +41,7 @@ export default function CheckoutPage() {
         window.location.href = response.data.url;
       }
     } catch (error) {
+      console.error(error);
       toast.error("Checkout failed. Please try again.");
     } finally {
       setLoading(false);

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth";
+import { OrderStatus } from "@prisma/client";
 
 export async function GET(req: Request) {
   try {
@@ -10,7 +11,7 @@ export async function GET(req: Request) {
     const status = searchParams.get("status");
 
     const orders = await prisma.order.findMany({
-      where: status ? { status: status as any } : undefined,
+      where: status ? { status: status as OrderStatus } : undefined,
       include: {
         user: {
           select: {
@@ -36,6 +37,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(orders);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Unauthorized or failed to fetch orders" },
       { status: 500 }

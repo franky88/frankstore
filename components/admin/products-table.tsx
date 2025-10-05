@@ -30,6 +30,7 @@ export function ProductsTable({ products }: { products: Product[] }) {
       toast.success("Product deleted");
       router.refresh();
     } catch (error) {
+      console.error(error);
       toast.error("Failed to delete product");
     } finally {
       setDeleting(null);

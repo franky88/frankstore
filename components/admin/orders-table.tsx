@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { OrderItem } from "@prisma/client";
 
 interface Order {
   id: string;
@@ -13,7 +14,7 @@ interface Order {
   status: string;
   createdAt: Date;
   user: { name: string | null; email: string };
-  orderItems: any[];
+  orderItems: OrderItem[];
 }
 
 export function OrdersTable({ orders }: { orders: Order[] }) {
@@ -27,6 +28,7 @@ export function OrdersTable({ orders }: { orders: Order[] }) {
       toast.success("Order status updated");
       router.refresh();
     } catch (error) {
+      console.log(error);
       toast.error("Failed to update order");
     } finally {
       setUpdating(null);
