@@ -47,6 +47,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Clerk webhook error:", err);
-    return NextResponse.json({ error: "Webhook failed" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Something went wront! Webhook failed!" },
+      { status: 400 }
+    );
   }
 }
