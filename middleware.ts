@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import prisma from "./lib/prisma";
 
 const isPublicRoute = createRouteMatcher([
   "/sign-in(.*)",
@@ -16,8 +17,18 @@ export default clerkMiddleware(async (auth, request) => {
   }
 
   if (isAdminRoute(request)) {
-    await auth.protect((has) => has({ role: "org:admin" }));
-    // or has({ permission: "your:custom_permission" })
+    const { userId } = await auth();
+    if (!userId) return;
+
+    // Fetch user role from your DB
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+      select: { role: true },
+    });
+
+    if (user?.role !== "ADMIN") {
+      return Response.redirect(new URL("/", request.url));
+    }
   }
 });
 
