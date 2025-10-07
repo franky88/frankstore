@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { X } from "lucide-react";
-import { UploadButton } from "@uploadthing/react";
-import type { OurFileRouter } from "@/app/api/uploadthing/core";
+// import { UploadButton } from "@uploadthing/react";
+// import type { OurFileRouter } from "@/app/api/uploadthing/core";
 import Image from "next/image";
 import { Product } from "@prisma/client";
+import { UploadButton } from "@/utils/uploadthing";
 
 interface Category {
   id: string;
@@ -147,7 +148,7 @@ export function ProductForm({ categories, product }: ProductFormProps) {
         <div>
           <label className="block text-sm font-medium mb-2">Images</label>
 
-          <UploadButton<OurFileRouter, "productImage">
+          <UploadButton
             endpoint="productImage"
             onClientUploadComplete={(res) => {
               if (res) {
