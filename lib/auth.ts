@@ -18,9 +18,7 @@ export async function getCurrentUser() {
 export async function requireAuth() {
   const user = await getCurrentUser();
 
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
+  if (!user) throw new Error("Unauthorized");
 
   return user;
 }
@@ -28,9 +26,8 @@ export async function requireAuth() {
 export async function requireAdmin() {
   const user = await requireAuth();
 
-  if (user.role !== "ADMIN") {
+  if (user.role !== "ADMIN")
     throw new Error("Forbidden: Admin access required");
-  }
 
   return user;
 }
